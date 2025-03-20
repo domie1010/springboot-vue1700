@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.dao.EntityOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.web.bean.EntityOrder" >
+    <id column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="fk_stu_code" property="fkStuCode" jdbcType="BIGINT" />
+    <result column="fk_entity_id" property="fkEntityId" jdbcType="BIGINT" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="total_price" property="totalPrice" jdbcType="DOUBLE" />
+    <result column="order_state" property="orderState" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    order_id, fk_stu_code, fk_entity_id, start_date, end_date, total_price, order_state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.web.bean.EntityOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from entity_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from entity_order
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from entity_order
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.web.bean.EntityOrderExample" >
+    delete from entity_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.web.bean.EntityOrder" >
+    insert into entity_order ( fk_stu_code, fk_entity_id,
+    start_date, end_date, total_price,
+    order_state)
+    values ( #{fkStuCode,jdbcType=BIGINT}, #{fkEntityId,jdbcType=BIGINT},
+    #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{totalPrice,jdbcType=DOUBLE},
+    #{orderState,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.web.bean.EntityOrder" >
+    insert into entity_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="fkStuCode != null" >
+        fk_stu_code,
+      </if>
+      <if test="fkEntityId != null" >
+        fk_entity_id,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="orderState != null" >
+        order_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="fkStuCode != null" >
+        #{fkStuCode,jdbcType=BIGINT},
+      </if>
+      <if test="fkEntityId != null" >
+        #{fkEntityId,jdbcType=BIGINT},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderState != null" >
+        #{orderState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.web.bean.EntityOrderExample" resultType="java.lang.Integer" >
+    select count(*) from entity_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update entity_order
+    <set >
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.fkStuCode != null" >
+        fk_stu_code = #{record.fkStuCode,jdbcType=BIGINT},
+      </if>
+      <if test="record.fkEntityId != null" >
+        fk_entity_id = #{record.fkEntityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.startDate != null" >
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.totalPrice != null" >
+        total_price = #{record.totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.orderState != null" >
+        order_state = #{record.orderState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update entity_order
+    set order_id = #{record.orderId,jdbcType=BIGINT},
+    fk_stu_code = #{record.fkStuCode,jdbcType=BIGINT},
+    fk_entity_id = #{record.fkEntityId,jdbcType=BIGINT},
+    start_date = #{record.startDate,jdbcType=DATE},
+    end_date = #{record.endDate,jdbcType=DATE},
+    total_price = #{record.totalPrice,jdbcType=DOUBLE},
+    order_state = #{record.orderState,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.web.bean.EntityOrder" >
+    update entity_order
+    <set >
+      <if test="fkStuCode != null" >
+        fk_stu_code = #{fkStuCode,jdbcType=BIGINT},
+      </if>
+      <if test="fkEntityId != null" >
+        fk_entity_id = #{fkEntityId,jdbcType=BIGINT},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderState != null" >
+        order_state = #{orderState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.web.bean.EntityOrder" >
+    update entity_order
+    set fk_stu_code = #{fkStuCode,jdbcType=BIGINT},
+    fk_entity_id = #{fkEntityId,jdbcType=BIGINT},
+    start_date = #{startDate,jdbcType=DATE},
+    end_date = #{endDate,jdbcType=DATE},
+    total_price = #{totalPrice,jdbcType=DOUBLE},
+    order_state = #{orderState,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=BIGINT}
+  </update>
+
+
+  <resultMap id="EntityWhithStudentANDEntity" type="EntityOrder">
+    <id property="orderId" column="order_id"/>
+    <result column="fk_stu_code" jdbcType="BIGINT" property="fkStuCode" />
+    <result column="fk_entity_id" jdbcType="BIGINT" property="fkEntityId" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="total_price" jdbcType="DOUBLE" property="totalPrice" />
+    <result column="order_state" jdbcType="VARCHAR" property="orderState" />
+    <association property="entity" javaType="Entity">
+      <id column="entityid" property="entityid" jdbcType="BIGINT"/>
+      <result column="entity_name" property="entityName" jdbcType="VARCHAR"/>
+    </association>
+    <association property="students" javaType="students">
+      <id column="stu_code" property="stuCode" jdbcType="BIGINT" />
+      <result column="username" property="username" jdbcType="VARCHAR" />
+      <result column="password" property="password" jdbcType="VARCHAR" />
+      <result column="real_name" property="realName" jdbcType="VARCHAR" />
+      <result column="college" property="college" jdbcType="VARCHAR" />
+      <result column="major" property="major" jdbcType="VARCHAR" />
+      <result column="account" property="account" jdbcType="DOUBLE" />
+      <result column="phone" property="phone" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+
+  <select id="list" parameterType="EntityOrder" resultMap="EntityWhithStudentANDEntity">
+
+    select eo.end_date,eo.fk_entity_id,eo.fk_stu_code,eo.order_id,eo.order_state,eo.start_date,
+    eo.total_price,e.entity_name,e.entity_info,s.stu_code,s.college,s.major,s.phone,s.real_name
+    from entity_order eo left join entity e
+    on eo.fk_entity_id = e.entityid
+    left join students s
+    on eo.fk_stu_code = s.stu_code
+
+    where 1=1
+
+    <if test="fkStuCode!= null and fkStuCode!= '' " >
+      and eo.fk_stu_code like '%${fkStuCode}%'
+    </if>
+
+    <if test="orderId!= null and orderId!= '' " >
+      and eo.order_id like '%${orderId}%'
+    </if>
+
+    <if test="orderState != null and orderState !='' ">
+      and eo.order_state = #{orderState}
+    </if>
+    order by order_id DESC
+
+  </select>
+</mapper>

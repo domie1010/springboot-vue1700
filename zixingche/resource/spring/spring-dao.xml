@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       <!-- 加载jdbc配置文件-->
+       <context:property-placeholder location="classpath:jdbc.properties"/>
+       <!-- 配置数据源-->
+       <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+               <!--数据库连接属性 -->
+              <property name="driverClass" value="${driverClassName}"/>
+              <property name="jdbcUrl" value="${url}"/>
+              <property name="user" value="${user}"/>
+              <property name="password" value="${password}"/>
+
+              <!-- 数据源连接配置-->
+              <property name="autoCommitOnClose" value="false"/>
+              <property name="checkoutTimeout" value="3000"/>
+              <property name="acquireRetryAttempts" value="3"/>
+              <property name="maxPoolSize" value="5"/>
+              <property name="minPoolSize" value="3"/>
+       </bean>
+
+       <!--配置mybatis -->
+       <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+              <!-- 配置数据源-->
+              <property name="dataSource" ref="dataSource"/>
+              <!--配置属性文件位置 -->
+              <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+              <!-- 配置mapper文件位置-->
+              <property name="mapperLocations" value="classpath:mybatis/mapper/*.xml"/>
+       </bean>
+
+       <!-- 配置dao接口自动生成-->
+
+       <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+              <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+              <property name="basePackage" value="com.web.dao"/>
+       </bean>
+</beans>

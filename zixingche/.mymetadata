@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="web---自行车租赁系统--ssm"
+  id="myeclipse.1479190361874"
+  context-root="/"
+  j2ee-spec="5.0"
+  archive="web---自行车租赁系统--ssm.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

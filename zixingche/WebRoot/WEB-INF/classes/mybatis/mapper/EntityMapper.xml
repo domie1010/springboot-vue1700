@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.dao.EntityMapper">
+    <resultMap id="BaseResultMap" type="com.web.bean.Entity">
+        <id column="entityid" property="entityid" jdbcType="BIGINT"/>
+        <result column="fk_typeId" property="fkTypeid" jdbcType="INTEGER"/>
+        <result column="entity_name" property="entityName" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DOUBLE"/>
+        <result column="entity_image" property="entityImage" jdbcType="VARCHAR"/>
+        <result column="entity_desc" property="entityDesc" jdbcType="VARCHAR"/>
+        <result column="entity_info" property="entityInfo" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    entityid, fk_typeId, entity_name, price, entity_image, entity_desc, entity_info
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.web.bean.EntityExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from entity
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from entity
+        where entityid = #{entityid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from entity
+    where entityid = #{entityid,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.web.bean.EntityExample">
+        delete from entity
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.web.bean.Entity">
+    insert into entity ( fk_typeId, entity_name,
+      price, entity_image, entity_desc, 
+      entity_info)
+    values ( #{fkTypeid,jdbcType=INTEGER}, #{entityName,jdbcType=VARCHAR},
+      #{price,jdbcType=DOUBLE}, #{entityImage,jdbcType=VARCHAR}, #{entityDesc,jdbcType=VARCHAR}, 
+      #{entityInfo,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.web.bean.Entity">
+        insert into entity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entityid != null">
+                entityid,
+            </if>
+            <if test="fkTypeid != null">
+                fk_typeId,
+            </if>
+            <if test="entityName != null">
+                entity_name,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="entityImage != null">
+                entity_image,
+            </if>
+            <if test="entityDesc != null">
+                entity_desc,
+            </if>
+            <if test="entityInfo != null">
+                entity_info,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entityid != null">
+                #{entityid,jdbcType=BIGINT},
+            </if>
+            <if test="fkTypeid != null">
+                #{fkTypeid,jdbcType=INTEGER},
+            </if>
+            <if test="entityName != null">
+                #{entityName,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="entityImage != null">
+                #{entityImage,jdbcType=VARCHAR},
+            </if>
+            <if test="entityDesc != null">
+                #{entityDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="entityInfo != null">
+                #{entityInfo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.web.bean.EntityExample" resultType="java.lang.Integer">
+        select count(*) from entity
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update entity
+        <set>
+            <if test="record.entityid != null">
+                entityid = #{record.entityid,jdbcType=BIGINT},
+            </if>
+            <if test="record.fkTypeid != null">
+                fk_typeId = #{record.fkTypeid,jdbcType=INTEGER},
+            </if>
+            <if test="record.entityName != null">
+                entity_name = #{record.entityName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.price != null">
+                price = #{record.price,jdbcType=DOUBLE},
+            </if>
+            <if test="record.entityImage != null">
+                entity_image = #{record.entityImage,jdbcType=VARCHAR},
+            </if>
+            <if test="record.entityDesc != null">
+                entity_desc = #{record.entityDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.entityInfo != null">
+                entity_info = #{record.entityInfo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update entity
+        set entityid = #{record.entityid,jdbcType=BIGINT},
+        fk_typeId = #{record.fkTypeid,jdbcType=INTEGER},
+        entity_name = #{record.entityName,jdbcType=VARCHAR},
+        price = #{record.price,jdbcType=DOUBLE},
+        entity_image = #{record.entityImage,jdbcType=VARCHAR},
+        entity_desc = #{record.entityDesc,jdbcType=VARCHAR},
+        entity_info = #{record.entityInfo,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.web.bean.Entity">
+        update entity
+        <set>
+            <if test="fkTypeid != null">
+                fk_typeId = #{fkTypeid,jdbcType=INTEGER},
+            </if>
+            <if test="entityName != null">
+                entity_name = #{entityName,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="entityImage != null">
+                entity_image = #{entityImage,jdbcType=VARCHAR},
+            </if>
+            <if test="entityDesc != null">
+                entity_desc = #{entityDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="entityInfo != null">
+                entity_info = #{entityInfo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where entityid = #{entityid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.web.bean.Entity">
+    update entity
+    set fk_typeId = #{fkTypeid,jdbcType=INTEGER},
+      entity_name = #{entityName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      entity_image = #{entityImage,jdbcType=VARCHAR},
+      entity_desc = #{entityDesc,jdbcType=VARCHAR},
+      entity_info = #{entityInfo,jdbcType=VARCHAR}
+    where entityid = #{entityid,jdbcType=BIGINT}
+  </update>
+
+<resultMap id="entityWithType" type="Entity">
+    <id column="entityid" property="entityid"/>
+    <result column="fk_typeId" property="fkTypeid" jdbcType="INTEGER"/>
+    <result column="entity_name" property="entityName" jdbcType="VARCHAR"/>
+    <result column="price" property="price" jdbcType="DOUBLE"/>
+    <result column="entity_image" property="entityImage" jdbcType="VARCHAR"/>
+    <result column="entity_desc" property="entityDesc" jdbcType="VARCHAR"/>
+    <result column="entity_info" property="entityInfo" jdbcType="VARCHAR"/>
+    <association property="type" javaType="Type">
+        <id property="typeId" column="type_id"></id>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    </association>
+</resultMap>
+    <select id="selectEntityWithType" parameterType="Entity" resultMap="entityWithType">
+    select *
+    from entity en left join type t
+      on en.fk_typeId = t.type_id
+      where 1=1
+      <if test="entityName!= null and entityName!= '' " >
+          and en.entity_name like '%${entityName}%'
+      </if>
+        <if test="fkTypeid != null and fkTypeid >0 ">
+            and en.fk_typeId = #{fkTypeid}
+        </if>
+      order by entityid
+  </select>
+</mapper>
